@@ -1,0 +1,11 @@
+315-Project-4
+=============
+
+munchkin_steg is a commandline tool for embeding messages in the least significant bit of a bmp file.
+scarecrow_steg is a command line too for embeding message in tracks of a midi file.
+
+
+The below make files do not run the actual programs.
+
+Makefile.munchkin_steg is for running tests for munchkin_steg
+Makefile.scarecrow_steg is for running tests for scarecrow_steg
