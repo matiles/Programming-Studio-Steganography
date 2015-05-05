@@ -73,6 +73,18 @@ int main(int argc, char** argv) {
 
 int main(int argc, char** argv) {
    cout << "Hello from midi_extract" << endl;
+
+   cout << "This program only excepts midi files (ie .mid)" << endl;
+   cout << "Please provide midi for extracing secret message from (eg. a_regular_file.mid): ";
+   string file;
+   getline(cin, file);
+   
+   midi_trk midi_file(file);
+
+   string secret = midi_file.reveal();   
+   
+   cout << "\nThe secret is: " << secret << endl;
+
    return 0;
 }
 

@@ -72,22 +72,31 @@ int main(int argc, char** argv) {
 */
 
 int main(int argc, char** argv) {
-   /*
-   cout << "please provide an midi file: ";
-   string midi_file;
-   cin >> midi_file;
-   MidiFile inputfile(midi_file); // create an MIDI file
+   cout << "Hello from midi_embed" << endl;
 
-   cout << "give an output file name: ";
-   string output_file;
-   cin >> output_file;
-   inputfile.addTrack(1);     // Add another two tracks to the MIDI file
+   cout << "This program only excepts midi files (ie .mid)" << endl;
+   cout << "Please provide a cover midi for your secret message (eg. a_regular_file.mid): ";
+   string file;
+   getline(cin, file);
    
-   inputfile.sortTracks();         // make sure data is in correct order
-   inputfile.write(output_file); // write Standard MIDI File twinkle.mid
-   */
-   cout << "Hello from midi_extract" << endl;
-   midi_trk mid;
+   string outfile;
+   cout << "Provide the output file to hide your secret message (eg. message_file.mid): ";
+   getline(cin, outfile);
+
+   midi_trk midi_file(file);
+   
+   //ask user what message they would like to hide
+   string secret_message;
+   cout << "Input secret message: ";
+   getline(cin, secret_message);
+   
+   if(midi_file.hide(secret_message, outfile)){
+      cout << "\nSuccessfully wrote message in... " << outfile << endl;
+   }
+   else{
+      cout << "Something went wrong." << endl;
+   }
+   
    return 0;
 }
 
