@@ -831,6 +831,13 @@ void MidiMessage::setMessage(vector<int>& message) {
    }
 }
 
+vector<uchar> MidiMessage::getMessage() {
+   vector<uchar> v;
+   for (int i=0; i<size(); i++) {
+      v.push_back( (*this)[i] );
+   }
+   return v;
+}
 
 
 //////////////////////////////
