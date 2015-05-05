@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include "MidiFile.h"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ using namespace std;
 class midi_trk {
   private:
     string file_name;
+    MidiFile midi_file;
     unsigned int bytes_in_image;
 
   public:
