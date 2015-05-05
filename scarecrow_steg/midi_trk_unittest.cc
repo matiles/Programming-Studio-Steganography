@@ -41,7 +41,7 @@ TEST(midi_trk, hide) {
 // Tests the reveal method.
 TEST(midi_trk, reveal) {
 
-  string outfile = "twinkle_out.bmp";
+  string outfile = "twinkle_out.mid";
   string secret_message = "Top secret message";
   
   midi_trk twinkle_out_file(outfile);
