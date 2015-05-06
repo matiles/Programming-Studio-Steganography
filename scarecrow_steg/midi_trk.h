@@ -24,10 +24,12 @@ class midi_trk {
 
   string reveal();
   int hide(string message, string output_file);
-  void is_hiding_something();  //attack
+  
+  //attacks
+  int might_hide_something();
+  vector<string> is_hiding_messages();
   
   int isValid(string file);
-  int how_many_chars();
   string get_name();
 };
 

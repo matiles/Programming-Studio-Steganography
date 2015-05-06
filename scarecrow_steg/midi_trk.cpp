@@ -40,77 +40,121 @@ midi_trk::~midi_trk(){
 }
 
 string midi_trk::reveal(){
+  int trk_count = midi_file.getTrackCount();
 
- int trk_count = midi_file.getTrackCount();
+  //go to last track
+  int event_count = midi_file.getEventCount(trk_count-1);
 
- //go to last track
- int event_count = midi_file.getEventCount(trk_count-1);
+  vector<unsigned char> message;
 
- vector<unsigned char> message;
- // vector<unsigned char> message = midi_file[trk_count-1][0].getMessage();
- 
-// cout << "message.size() is: " << message.size() << endl;
-// cout << "message[0]: " << (int)message[0] << endl;
-// cout << "message[1]: " << (int)message[1] << endl;
-// cout << "message[2]: " << (int)message[2] << endl;
-// cout << "message[3]: " << (char)message[3] << endl;
-// cout << "message[4]: " << (char)message[4] << endl;
-// cout << "message[5]: " << (char)message[5] << endl;
-// cout << "message[6]: " << (char)message[6] << endl;
-
-//iterate through events
-for (int j = 0; j < event_count; ++j){
-  message = midi_file[trk_count-1][j].getMessage();
-  //if its a text event and if it has the secret identifier
-  if( (int)message[0] == 255 && (int)message[1] == 1 && (char)message[3] == '|'){
-    break;
+  //iterate through events
+  for (int j = 0; j < event_count; ++j){
+    message = midi_file[trk_count-1][j].getMessage();
+    //if its a text event and if it has the secret identifier
+    if( (int)message[0] == 255 && (int)message[1] == 1 && (char)message[3] == '|'){
+      break;
+    }
   }
-}
 
-string message_str;
-//start of message always starts at index 4. Read until the end.
-for (int i = 4; i < message.size(); ++i){
-   message_str += message[i];
- }
- return message_str;
+  string message_str;
+  //start of message always starts at index 4 for our implementation. Read until the end.
+  for (int i = 4; i < message.size(); ++i){
+    message_str += message[i];
+  }
+  return message_str;
 }
 
 int midi_trk::hide(string secret_message, string out_file){
-  //calculate the space required to fit message
-  int required_bytes = secret_message.length();
+
   string identifier = "|";
   secret_message = identifier + secret_message;
 
-  //each track is 10 bytes long
   //create track
   midi_file.absoluteTicks();
   int track = midi_file.addTrack(1);
-  //int type = 256;
-  int type = 65281;
 
   //add event
+  int type = 65281;
   midi_file.addMetaEvent(track,0,type,secret_message.c_str());
 
   //write/create the stego object
   midi_file.sortTracks();
-  //midi_file.write(out_file);
   midi_file.write(out_file);
 
   return 1;
-}
-  
-int midi_trk::how_many_chars(){
-  return 0;
 }
 
 string midi_trk::get_name(){
   return file_name;
 }
 
-void midi_trk::is_hiding_something(){
-  //check if image is hiding a secrete message
+//simply checks for meta messenges since this is where embeding will likely occur
+int midi_trk::might_hide_something(){
 
-  //if so reveal what the image is hiding
+  int trk_count = midi_file.getTrackCount();
+  int event_count;
 
-  //if tell the user that the image is not hiding anything
+  vector<unsigned char> message;
+
+  //iterate through tracks
+  for(int i=0; i<trk_count; ++i){
+    //iterate through events
+    event_count = midi_file.getEventCount(i);
+    for(int j=0; j < event_count; ++j){
+      message = midi_file[i][j].getMessage();
+      //if it is some sort of text event
+      if( (int)message[0] == 255 && ( (int)message[1] == 1 ||
+                                      (int)message[1] == 2 ||
+                                      (int)message[1] == 3 ||
+                                      (int)message[1] == 4 ||
+                                      (int)message[1] == 5)
+        )
+      {
+        return 1;
+      }
+    }
+  }
+
+  return 0;
+}
+
+vector<string> midi_trk::is_hiding_messages(){
+
+  int trk_count = midi_file.getTrackCount();
+  int event_count;
+
+  vector<unsigned char> message;
+  vector<vector<unsigned char>> meta_messages;
+
+  //iterate through tracks
+  for(int i=0; i<trk_count; ++i){
+    event_count = midi_file.getEventCount(i);
+    //iterate through events
+    for (int j = 0; j < event_count; ++j){
+      message = midi_file[i][j].getMessage();
+      //if its some sort text event
+      if( (int)message[0] == 255 && ( (int)message[1] == 1 ||
+                                      (int)message[1] == 2 ||
+                                      (int)message[1] == 3 ||
+                                      (int)message[1] == 4 ||
+                                      (int)message[1] == 5)
+        )
+      {
+        meta_messages.push_back(message);
+      }
+    }
+  }
+
+  vector<string> possible_messages;
+  //iterate through suspicious messages
+  for(int k=0; k < meta_messages.size(); ++k){
+    string message_str;
+    //start of message always starts at index 3. Read until the end.
+    for(int l = 3; l < meta_messages[k].size(); ++l){
+      message_str += meta_messages[k][l];
+    }
+    possible_messages.push_back(message_str);
+  }
+
+  return possible_messages;
 }
