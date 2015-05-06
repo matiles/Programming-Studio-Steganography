@@ -6,9 +6,8 @@
 using namespace std;
 
 
-int p;
-int q;
-int n;
+int p, q, n, null_n, e, d;
+
 
 bool isPrime(int num)
 {
@@ -51,16 +50,71 @@ int primeNumber(int min)
 	return num;
 }
 
+//returns prime number greater than int given to it
+int primeNumber(int min, int max)
+{
+	int num = -1;
+	
+	while(!(min <=num && num < max))
+	{
+		do
+		{
+			num = rand() % 45000+1;
+		}while(!isPrime(num));
+	}
+	
+	return num;
+}
+
+int calculate_e(int n, int null_n)
+{
+	int num = 0;
+	
+	while(true)
+	{
+		num = primeNumber(1, null_n);
+		if(!(n % num == 0 || null_n % num == 0))
+			return num;
+	}
+}
+
+int calculate_d(int e, int null_n)
+{
+	int i = null_n;
+	while(true)
+	{
+		int num = e * i;
+		
+		num = num % null_n;
+		if(num == 1)
+			return i;
+		i++;
+	}
+}
+
 void encryption()
 {
-	int p = primeNumber(20000);
-	int q = primeNumber(20000);
+	p = 2;
+	q = 7;
 	
-	int n = p * q;
+	n = p * q;
+	null_n = (p-1)*(q-1);
 	
-	cout << "p -- > " << p << endl;
+	e = calculate_e(n, null_n);
+	d = calculate_d(e,null_n);
+	
+	cout << "\np -- > " << p << endl;
 	cout << "q -- > " << q << endl;
 	cout << "n -- > " << n << endl;
+	cout << "null_n -- > " << null_n << endl;
+	cout << "e -- > " << e << endl;
+	cout << "d -- > " << d << endl;
+	
+	string message = "B";
+	
+	int char_dex = 'b' - 'a';
+	cout << char_dex << endl;
+
 }
 
 
@@ -69,7 +123,7 @@ int main()
 {
 	srand(time(0)); //srand() needs to be called here so primeNumber() work properly 
 	
-	for(int i = 1; i<100; i++)
+	for(int i = 1; i<5; i++)
 	{
 		encryption();
 	}
