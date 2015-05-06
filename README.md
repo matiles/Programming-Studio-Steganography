@@ -10,3 +10,10 @@ The below make files do not run the actual programs.
 Makefile.munchkin_steg is for running tests for munchkin_steg
 
 Makefile.scarecrow_steg is for running tests for scarecrow_steg
+
+
+Acknowledgments
+
+This project uses Craig Stuart's C++ library for parsing Standard MIDI Files.
+
+This project uses Paul Macklin's C++ Bitmap Library.
