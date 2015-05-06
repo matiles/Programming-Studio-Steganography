@@ -14,7 +14,7 @@ Makefile.scarecrow_steg is for running tests for scarecrow_steg
 ### Acknowledgments ######
 
 This project uses Craig Stuart's C++ library for parsing Standard MIDI Files.
-[midifile.sapp.org](www.midifile.sapp.org)
+[http://midifile.sapp.org/](http://midifile.sapp.org/)
 
 This project uses Paul Macklin's C++ Bitmap Library.
-[easybmp.sourceforge.net](www.easybmp.sourceforge.net/)
+[http://easybmp.sourceforge.net/](http://easybmp.sourceforge.net/)
