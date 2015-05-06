@@ -36,17 +36,19 @@ Downloading and running the tools
   * Makefile.scarecrow_steg is for running tests for scarecrow_steg
   
 
-  To run munchkin_steg go to the munchkin_steg directory and run 'make all'.
-  To embed execute     ./bmp_lsb_embed
-  To extract execute   ./bmp_lsb_extract
-  To attack execute    ./bmp_attack
+To run munchkin_steg go to the munchkin_steg directory and run 'make all'.
+  * To embed execute     ./bmp_lsb_embed
+  * To extract execute   ./bmp_lsb_extract
+  * To attack execute    ./bmp_attack
 
-  To run scarecrow_steg go to the scarecrow_steg directory and run 'make all'.
-  To embed execute     ./midi_embed
-  To extract execute   ./midi_extract
-  To attack execute    ./midi_attack
-  
-### Acknowledgments ######
+To run scarecrow_steg go to the scarecrow_steg directory and run 'make all'.
+  * To embed execute     ./midi_embed
+  * To extract execute   ./midi_extract
+  * To attack execute    ./midi_attack
+
+
+Acknowledgments
+---------------
 
 This project uses Craig Stuart's C++ library for parsing Standard MIDI Files.
 
