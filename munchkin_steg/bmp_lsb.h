@@ -22,7 +22,8 @@ class bmp_lsb {
 
   string reveal();
   int hide(string message, string output_file);
-  void is_hiding_something();  //attack
+  string is_hiding_str();  //attack
+  int mess_up_message();
   
   int isValid(string file);
   int how_many_chars();
