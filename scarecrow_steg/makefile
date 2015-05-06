@@ -1,6 +1,6 @@
 # makefile
 
-all: midi_embed midi_extract
+all: midi_embed midi_extract midi_attack
 
 Binasc.o: Binasc.h Binasc.cpp
 	g++-4.7 -std=c++11 -c Binasc.cpp
@@ -28,11 +28,17 @@ midi_embed.o: midi_embed.cpp midi_trk.h
 midi_extract.o: midi_extract.cpp midi_trk.h
 	g++-4.7 -std=c++11 -c midi_extract.cpp
 
+midi_attack.o: midi_attack.cpp midi_trk.h
+	g++-4.7 -std=c++11 -c midi_attack.cpp
+
 midi_embed: midi_embed.o midi_trk.o MidiFile.o MidiEventList.o MidiEvent.o MidiMessage.o Binasc.o
 	g++-4.7 -std=c++11 -o midi_embed midi_embed.o midi_trk.o MidiFile.o MidiEventList.o MidiEvent.o MidiMessage.o Binasc.o
 
 midi_extract: midi_extract.o midi_trk.o MidiFile.o MidiEventList.o MidiEvent.o MidiMessage.o Binasc.o
 	g++-4.7 -std=c++11 -o midi_extract midi_extract.o midi_trk.o MidiFile.o MidiEventList.o MidiEvent.o MidiMessage.o Binasc.o
+
+midi_attack: midi_attack.o midi_trk.o MidiFile.o MidiEventList.o MidiEvent.o MidiMessage.o Binasc.o
+	g++-4.7 -std=c++11 -o midi_attack midi_attack.o midi_trk.o MidiFile.o MidiEventList.o MidiEvent.o MidiMessage.o Binasc.o
 
 #midi_embed: midi_embed.cpp midi_trk.o
 #	g++-4.7 -std=c++11 -o midi_embed midi_embed.cpp midi_trk.o
