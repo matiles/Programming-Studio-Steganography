@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdlib.h> 
 #include <ctime> 
+#include <math.h>
 using namespace std;
 
 
@@ -110,11 +111,22 @@ void encryption()
 	cout << "e -- > " << e << endl;
 	cout << "d -- > " << d << endl;
 	
-	string message = "B";
+	char message = 'B';	//might need to put this as input taken into the function
+	int message_i = ((int)message)-64;	//-64 to off set ASCII characters
+										//make A=1, B=2, C=3,...
+	int temp_encrypt = pow(message_i, e); //2^(5) mod(14)
+	int encrypted_letter_i = temp_encrypt % n;
+	int encrypted_letter_ascii = encrypted_letter_i + 64; //+64 to put back in ASCII code
+	char encrypted_letter = (char)encrypted_letter_ascii;	
 	
+	cout << "inputed letter: " << message << endl;
+	cout << "encrypted letter code: " << encrypted_letter_ascii << endl;
+	cout << "encrypted letter: " << encrypted_letter << endl;
+	
+	/* testing ACII characters
 	int char_dex = 'b' - 'a';
 	cout << char_dex << endl;
-
+	*/
 }
 
 
