@@ -66,6 +66,10 @@ string midi_trk::reveal(){
 
 int midi_trk::hide(string secret_message, string out_file){
 
+  if(!midi_file.status()){
+	cerr << "\nFile could not be read." << endl;
+  }
+
   string identifier = "|";
   secret_message = identifier + secret_message;
 
