@@ -201,7 +201,7 @@ string extract_ascii(string str){
   return str;
 }
 */
-
+/*
 vector<string> possible_words(string word){
   //set<string> _words;
   vector<string> _words;
@@ -293,7 +293,6 @@ string bmp_lsb::is_hiding_str(){
     }
     ++m;
   }
-  */
 
   vector<string> possib_words = possible_words(secret_message);
   string probable_message;
@@ -304,6 +303,7 @@ string bmp_lsb::is_hiding_str(){
   
   return probable_message;
 }
+*/
 
 int bmp_lsb::mess_up_message(){
 

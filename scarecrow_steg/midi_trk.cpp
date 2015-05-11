@@ -128,7 +128,7 @@ vector<string> midi_trk::is_hiding_messages(){
   int event_count;
 
   vector<unsigned char> message;
-  vector<vector<unsigned char>> meta_messages;
+  vector<vector<unsigned char> > meta_messages;
 
   //iterate through tracks
   for(int i=0; i<trk_count; ++i){
