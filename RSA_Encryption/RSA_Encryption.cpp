@@ -4,11 +4,14 @@
 #include <stdlib.h> 
 #include <ctime> 
 #include <math.h>
+#include <fstream>
+#include <vector>
 using namespace std;
 
 
-int p, q, n, null_n, e, d;
-
+long long int p, q, n, null_n, e, d;
+string message, en_message, de_message;
+vector<long long int> temp;
 
 bool isPrime(int num)
 {
@@ -51,7 +54,6 @@ int primeNumber(int min)
 	return num;
 }
 
-//returns prime number greater than int given to it
 int primeNumber(int min, int max)
 {
 	int num = -1;
@@ -73,15 +75,15 @@ int calculate_e(int n, int null_n)
 	
 	while(true)
 	{
-		num = primeNumber(1, null_n);
-		if(!(n % num == 0 || null_n % num == 0))
+		num = primeNumber(1, null_n);		//probably wrong. Shouldnt return a random prime
+		if(!(n % num == 0 || null_n % num == 0))	//changed || to &&
 			return num;
 	}
 }
 
 int calculate_d(int e, int null_n)
 {
-	int i = null_n;
+	long long int i = null_n;
 	while(true)
 	{
 		int num = e * i;
@@ -95,15 +97,83 @@ int calculate_d(int e, int null_n)
 
 void encryption()
 {
-	p = 2;
-	q = 7;
+	temp.clear();
+	p = primeNumber(10000,10190);
+	q = primeNumber(10000,10190);
+	
+	while(p == q)
+		q = primeNumber(100,190);
 	
 	n = p * q;
 	null_n = (p-1)*(q-1);
 	
 	e = calculate_e(n, null_n);
-	d = calculate_d(e,null_n);
+	d = calculate_d(e,null_n);	
 	
+	/*cout << "\np -- > " << p << endl;
+	cout << "q -- > " << q << endl;
+	cout << "n -- > " << n << endl;
+	cout << "null_n -- > " << null_n << endl;
+	cout << "e -- > " << e << endl;
+	cout << "d -- > " << d << endl;*/
+	
+	
+	
+	for(int j = 0;j < message.length(); j++)
+	{	
+		char letter = message[j];
+		long long int k = 1;
+		for(int j = 0; j<e; j++)
+		{
+			k = k*letter;
+			k = k%n;
+		}
+		
+		//char encrypted_letter = (fmod(pow(i, e), n))+64;
+		char encrypted_letter = (k%94 + 33);
+		en_message = en_message + encrypted_letter;
+		temp.push_back(k / 94);
+		
+		
+		/*cout << "inputed letter: " << letter ;
+		cout << " --> "<< encrypted_letter << " --> " << (long long int)encrypted_letter;
+		cout << " --> "<< k  << " --> "<< (k-33)/94  << endl;*/
+	}
+	cout << "\nEncrypted message: " << en_message << endl;
+	cout << endl;
+	
+}
+
+
+/*int find_decrypted_code(int encrypted_letter)
+{
+	int decrypted_number = 1;
+
+
+	//not currently in use
+	long long int k = 1;
+	for(int j = 0; j<e; j++)
+	{
+		k = k*encrypted_letter;
+		k = k%n;
+	}
+
+
+	//cout << "fmod(pow): " <<  fmod(pow(encrypted_letter, d), n) << "\t";
+	return fmod(pow(encrypted_letter, d), n); //fmod(pow(encrypted_letter, d), n);
+			//math is correct think problem is in the encryption, repeats at 14
+}
+
+void decryption()
+{
+	vector<char> encrypted_v;
+	int encrypted_letter;
+	int decrypted_number;
+	char decrypted_letter;
+	
+	
+	//takes d and n from the globals
+	//make sure everything is as it is supposed to be
 	cout << "\np -- > " << p << endl;
 	cout << "q -- > " << q << endl;
 	cout << "n -- > " << n << endl;
@@ -111,23 +181,70 @@ void encryption()
 	cout << "e -- > " << e << endl;
 	cout << "d -- > " << d << endl;
 	
-	char message = 'B';	//might need to put this as input taken into the function
-	int message_i = ((int)message)-64;	//-64 to off set ASCII characters
-										//make A=1, B=2, C=3,...
-	int temp_encrypt = pow(message_i, e); //2^(5) mod(14)
-	int encrypted_letter_i = temp_encrypt % n;
-	int encrypted_letter_ascii = encrypted_letter_i + 64; //+64 to put back in ASCII code
-	char encrypted_letter = (char)encrypted_letter_ascii;	
+	char x;
+	ifstream myfile ("message.txt");
+	ofstream write_file("d_message.txt");
+	while(myfile >> x) {
+		cout << x << "\tcode: " << (int)x <<  endl;
+		encrypted_v.push_back(x);
+	}
 	
-	cout << "inputed letter: " << message << endl;
-	cout << "encrypted letter code: " << encrypted_letter_ascii << endl;
-	cout << "encrypted letter: " << encrypted_letter << endl;
+	for (int i = 0; i < encrypted_v.size(); ++i) {
+		encrypted_letter = encrypted_v[i];
+		cout << "encrypted_letter: " << encrypted_letter << endl;
+		decrypted_number = find_decrypted_code(encrypted_letter);	//-64);
+		decrypted_letter = decrypted_number%127;		//+64;
+	//	cout << "dl: " << decrypted_number << endl;
+		write_file << decrypted_letter;		
+	}
 	
-	/* testing ACII characters
-	int char_dex = 'b' - 'a';
-	cout << char_dex << endl;
-	*/
+	myfile.close();
+	write_file.close();
 }
+*/
+
+void decryption()
+{
+	vector<char> encrypted_v;
+	long long int encrypted_letter;
+	long long int decrypted_number;
+	char decrypted_letter;
+	
+	char x;
+	ifstream myfile ("message.txt");
+	ofstream write_file("d_message.txt");
+	while(myfile >> x) {
+		encrypted_v.push_back(x);
+	}
+	
+	for (int i = 0; i < en_message.length(); ++i) {
+		encrypted_letter = en_message[i];
+		//cout << "encrypted_letter:     " << (char)encrypted_letter << " --> " << encrypted_letter;
+		
+		unsigned long long int enc_num = (encrypted_letter-33)+ (94 * temp[i]);
+		
+		
+		unsigned long long int k = 1;
+		for(int j = 0; j<d; j++)
+		{
+			k = k*enc_num;
+			k = k%n;
+		}
+		
+		char d_letter = k;
+		//cout << d_letter <<endl;
+		//cout << " --> " << enc_num << " --> " << k << " --> " << d_letter << endl;
+		
+		write_file << d_letter;
+		de_message = de_message + d_letter;
+	}
+	
+	cout << "Decrypted message: " << de_message << endl;
+	myfile.close();
+	write_file.close();
+}
+
+
 
 
 //46340^2 is the highest number with no overflow with int
@@ -135,11 +252,24 @@ int main()
 {
 	srand(time(0)); //srand() needs to be called here so primeNumber() work properly 
 	
-	for(int i = 1; i<5; i++)
+	for(int i = 1; i<2; i++)
 	{
+		message = "";
+		cout << "Enter message: ";
+		
+		getline(cin, message);
+		
 		encryption();
+		decryption();
+		
+		ifstream file ("d_message.txt");
+		string test = "";
+		getline(file,test);
+				
+		file.close();
 	}
 	
+
 	
 	
 	
