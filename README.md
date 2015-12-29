@@ -1,15 +1,13 @@
-315-Project-4
+Programming Studio: Project 4
 =============
 
 Overview
 --------
 
-  This repository contains 4 tools.
+  This repository contains 2 tools.
   
-  1. RSA Encryption
-  2. Cryptanalysis of RSA
-  3. Steganography (1-LSB BMP and tracks on midi)
-  4. Steganalysis and countermeasure
+  1. Steganography (1-LSB BMP and tracks on midi)
+  2. Steganalysis and countermeasure
 
   * munchkin_steg is a command line tool for embeding messages in the least significant bit of a bmp file.
   * scarecrow_steg is a command line tool for embeding messages in tracks of a midi file.
@@ -28,7 +26,7 @@ Downloading and running the tools
 
   Download source code from this repository.
 
-  The below make files do not run the actual tools. They are make files for running unit tests using googles gtest version   1.7.
+  The below make files do not run the actual tools. They are make files for running unit tests using googles gtest version 1.7.
   
   [http://code.google.com/p/googletest/](http://code.google.com/p/googletest/)
 
